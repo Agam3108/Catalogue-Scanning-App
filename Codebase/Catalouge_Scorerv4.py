@@ -11,11 +11,12 @@ from langchain.prompts import PromptTemplate
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 
 llm = HuggingFaceHub(
-    repo_id="mistralai/Mistral-7B-Instruct-v0.2", model_kwargs={"temperature": 0.5, "max_length": 2048}
+    repo_id="mistralai/Mistral-7B-Instruct-v0.2", model_kwargs={"temperature": 0.5, "max_length": 64}
 )
 
 template = """
-        The task involves evaluating text from a catalogue PDF, assigning a score of 100, and identifying errors like formatting and semantic inaccuracies. The evaluation should provide detailed insights into these issues, highlighting their impact on content accuracy and quality. Actionable suggestions for improvement should be offered, focusing on precision, semantic fidelity, and coherent information presentation. The evaluation and recommendations should be limited to a word constraint of 100.
+        Your task is to meticulously evaluate the text extracted from a catalogue PDF, assigning a score out of 100. Thoroughly analyze the extracted text, identifying any mistakes such as formatting errors, semantic inaccuracies, and inconsistencies. Provide detailed insights into these errors, highlighting their impact on the accuracy and quality of the extracted content. Additionally, offer actionable suggestions for improvements aimed at enhancing the extraction process. Focus on optimizing precision, ensuring semantic fidelity, and achieving a coherent presentation of information. Your evaluation and recommendations are pivotal in refining the extraction process, ultimately contributing to the reliability and usability of the extracted text. Your attention to detail and comprehensive analysis will play a crucial role in improving the overall quality of extracted content from catalogue PDFs.
+        
         Question: {question}
         """
 
@@ -25,10 +26,10 @@ llm_chain = LLMChain(prompt=prompt, llm=llm)
 
 def model(question):
     template = """
-            The task involves evaluating text from a catalogue PDF, assigning a score of 100, and identifying errors like formatting and semantic inaccuracies.The evaluation should provide detailed insights into these issues, highlighting their impact on content accuracy and quality. Actionable suggestions for improvement should be offered, focusing on precision, semantic fidelity, and coherent information presentation. The evaluation should be accurate and limited to a word constraint of 100.
+            Your task is to meticulously evaluate the text extracted from a catalogue PDF, assigning a score out of 100. Thoroughly analyze the extracted text, identifying any mistakes such as formatting errors, semantic inaccuracies, and inconsistencies. Provide detailed insights into these errors, highlighting their impact on the accuracy and quality of the extracted content. Additionally, offer actionable suggestions for improvements aimed at enhancing the extraction process. Focus on optimizing precision, ensuring semantic fidelity, and achieving a coherent presentation of information. Your evaluation and recommendations are pivotal in refining the extraction process, ultimately contributing to the reliability and usability of the extracted text. Your attention to detail and comprehensive analysis will play a crucial role in improving the overall quality of extracted content from catalogue PDFs.
+
             Question: {question}
             """
-             
 
     prompt = PromptTemplate.from_template(template)
 
